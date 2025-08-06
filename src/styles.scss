@@ -8,3 +8,46 @@
   @tailwind components;
   @tailwind utilities;
 }
+
+/* Mobile-first base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* Prevent zoom on double tap */
+  touch-action: manipulation;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+}
+
+body {
+  /* Prevent overscroll bounce on iOS */
+  overscroll-behavior-y: none;
+  /* Optimize text rendering for mobile */
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tailwind components */
+@layer components {
+  .touch-target {
+    @apply min-h-touch min-w-touch flex items-center justify-center;
+  }
+
+  .focus-ring:focus {
+    @apply outline-2 outline-blue-500 outline-offset-2;
+  }
+
+  .no-select {
+    @apply select-none;
+  }
+}
