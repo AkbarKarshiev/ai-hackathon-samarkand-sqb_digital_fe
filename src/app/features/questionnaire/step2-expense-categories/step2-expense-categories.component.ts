@@ -1,8 +1,9 @@
-import { Component, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, output, signal } from '@angular/core';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionnaire-layout.component';
+
 import { EXPENSE_CATEGORIES } from '../models/questionnaire.types';
+import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionnaire-layout.component';
 
 @Component({
   selector: 'app-step2-expense-categories',

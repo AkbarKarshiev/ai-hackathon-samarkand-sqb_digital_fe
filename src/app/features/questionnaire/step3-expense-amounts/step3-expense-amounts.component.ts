@@ -1,9 +1,10 @@
-import { Component, input, output, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed,input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionnaire-layout.component';
+
 import { EXPENSE_CATEGORIES } from '../models/questionnaire.types';
+import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionnaire-layout.component';
 
 @Component({
   selector: 'app-step3-expense-amounts',

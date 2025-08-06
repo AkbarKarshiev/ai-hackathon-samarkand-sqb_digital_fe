@@ -1,9 +1,10 @@
-import { Component, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionnaire-layout.component';
+
 import { IncomeInfo } from '../models/questionnaire.types';
+import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionnaire-layout.component';
 
 @Component({
   selector: 'app-step4-income',
