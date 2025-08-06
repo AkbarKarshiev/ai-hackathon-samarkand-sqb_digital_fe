@@ -1,0 +1,48 @@
+<div class="questionnaire-layout h-screen-safe flex flex-col bg-white">
+  <!-- Loading Progress Bar -->
+  @if (isSubmitting()) {
+    <p-progressbar
+      mode="indeterminate"
+      [style]="{'height': '4px', 'background-color': 'var(--p-gray-200)'}"
+      styleClass="absolute top-0 left-0 right-0 z-50">
+    </p-progressbar>
+  }
+
+  <!-- Header (conditional) -->
+  @if (showHeader()) {
+    <header class="bg-white border-b border-gray-200 px-4 py-3 flex items-center z-40"
+            [class.mt-1]="isSubmitting()">
+      <p-button
+        (onClick)="goBack()"
+        icon="pi pi-arrow-left"
+        variant="text"
+        [rounded]="true"
+        class="mr-2"
+        ariaLabel="Назад">
+      </p-button>
+      <h1 class="flex-1 text-center text-lg font-medium text-gray-900 pr-12">
+        {{ title() }}
+      </h1>
+    </header>
+  } @else {
+    <div class="pt-safe-top" [class.mt-1]="isSubmitting()"></div>
+  }
+
+  <!-- Main Content -->
+  <main class="flex-1 overflow-y-auto">
+    <ng-content></ng-content>
+  </main>
+
+  <!-- Fixed Bottom Button -->
+  <div class="bg-white p-4">
+    <p-button
+      [label]="nextButtonText()"
+      (onClick)="onNext()"
+      [disabled]="isSubmitting()"
+      [loading]="isSubmitting()"
+      [fluid]="true"
+      [severity]="'info'"
+      size="large">
+    </p-button>
+  </div>
+</div>

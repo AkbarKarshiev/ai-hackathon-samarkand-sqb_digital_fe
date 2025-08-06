@@ -1,0 +1,41 @@
+<app-questionnaire-layout
+  [showHeader]="true"
+  [isSubmitting]="isSubmitting()"
+  (nextClicked)="handleNext()">
+
+  <div class="px-6 py-8">
+    <h1 class="text-2xl font-bold text-gray-900 mb-8 text-center">Доходы</h1>
+
+    <div class="space-y-6">
+      <div>
+        <label class="block text-gray-900 font-medium mb-3">Зарплата</label>
+        <p-inputnumber
+          [(ngModel)]="incomeData().salary"
+          (ngModelChange)="updateSalary($event)"
+          placeholder="Введите сумму"
+          mode="currency"
+          currency="UZS"
+          locale="uz-UZ"
+          [min]="0"
+          [fluid]="true"
+          styleClass="w-full">
+        </p-inputnumber>
+      </div>
+
+      <div>
+        <label class="block text-gray-900 font-medium mb-3">Другие доходы</label>
+        <p-inputnumber
+          [(ngModel)]="incomeData().otherIncome"
+          (ngModelChange)="updateOtherIncome($event)"
+          placeholder="Введите сумму"
+          mode="currency"
+          currency="UZS"
+          locale="uz-UZ"
+          [min]="0"
+          [fluid]="true"
+          styleClass="w-full">
+        </p-inputnumber>
+      </div>
+    </div>
+  </div>
+</app-questionnaire-layout>

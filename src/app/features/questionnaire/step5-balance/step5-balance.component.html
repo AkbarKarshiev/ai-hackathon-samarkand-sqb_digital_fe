@@ -1,0 +1,33 @@
+<app-questionnaire-layout
+  [showHeader]="true"
+  [isSubmitting]="isSubmitting()"
+  [nextButtonText]="'Завершить'"
+  (nextClicked)="handleNext()">
+
+  <div class="px-6 py-8">
+    <h1 class="text-2xl font-bold text-gray-900 mb-8 text-center">Текущий баланс</h1>
+
+    <div class="space-y-6">
+      <div>
+        <label class="block text-gray-900 font-medium mb-3">Ваш текущий баланс</label>
+        <p-inputnumber
+          [(ngModel)]="balanceData().currentBalance"
+          (ngModelChange)="updateBalance($event)"
+          placeholder="Введите сумму"
+          mode="currency"
+          currency="UZS"
+          locale="uz-UZ"
+          [min]="0"
+          [fluid]="true"
+          styleClass="w-full">
+        </p-inputnumber>
+      </div>
+
+      <div class="p-4 bg-blue-50 rounded-xl">
+        <p class="text-sm text-blue-800 leading-relaxed">
+          Укажите общую сумму денежных средств, которые у вас есть на данный момент на всех счетах и в наличии.
+        </p>
+      </div>
+    </div>
+  </div>
+</app-questionnaire-layout>

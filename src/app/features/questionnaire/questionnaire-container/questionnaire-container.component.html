@@ -1,0 +1,23 @@
+<div class="min-h-screen-safe overflow-hidden">
+  <div [@slideAnimation]="currentStep()">
+    @switch (currentStep()) {
+      @case (1) {
+        <app-step1-family (completed)="onFamilyCompleted($event)"/>
+      }
+      @case (2) {
+        <app-step2-expense-categories (completed)="onExpenseCategoriesCompleted($event)"/>
+      }
+      @case (3) {
+        <app-step3-expense-amounts
+          [selectedCategoryIds]="questionnaireData().expenses.selectedCategories"
+          (completed)="onExpenseAmountsCompleted($event)"/>
+      }
+      @case (4) {
+        <app-step4-income (completed)="onIncomeCompleted($event)"/>
+      }
+      @case (5) {
+        <app-step5-balance (completed)="onBalanceCompleted($event)"/>
+      }
+    }
+  </div>
+</div>

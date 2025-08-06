@@ -1,0 +1,70 @@
+<app-questionnaire-layout
+  [showHeader]="true"
+  [isSubmitting]="isSubmitting()"
+  (nextClicked)="handleNext()">
+
+  <div class="px-6 py-8">
+    <!-- Title -->
+    <h1 class="text-2xl font-bold text-gray-900 mb-4">Семья</h1>
+
+    <!-- Description -->
+    <p class="text-gray-600 mb-8 leading-relaxed">
+      Эта информация позволит нам точнее проанализировать ваши нужды и дать подходящие вам рекомендации
+    </p>
+
+        <!-- Reactive Form -->
+    <form [formGroup]="form" class="space-y-6">
+      <!-- Marital Status -->
+      <div class="mb-6">
+        <label [for]="formKeys.MaritalStatus" class="block text-gray-900 font-medium mb-3">Семейное положение</label>
+        <p-select
+          [id]="formKeys.MaritalStatus"
+          [inputId]="formKeys.MaritalStatus"
+          [formControlName]="formKeys.MaritalStatus"
+          [options]="maritalStatusOptions"
+          [invalid]="form.get(formKeys.MaritalStatus)?.invalid && form.get(formKeys.MaritalStatus)?.touched"
+          [fluid]="true"
+          placeholder="Выберите статус"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-select>
+        @if (form.get(formKeys.MaritalStatus)?.invalid && form.get(formKeys.MaritalStatus)?.touched) {
+          <small
+            class="text-red-500 block mt-2"
+            [id]="formKeys.MaritalStatus + '-help'"
+          >
+            @if (form.get(formKeys.MaritalStatus)?.hasError('required')) {
+              Обязательное поле
+            }
+          </small>
+        }
+      </div>
+
+      <!-- Dependents -->
+      <div class="mb-6">
+        <label [for]="formKeys.Dependents" class="block text-gray-900 font-medium mb-3">На попечении</label>
+        <p-select
+          [id]="formKeys.Dependents"
+          [formControlName]="formKeys.Dependents"
+          [options]="dependentsOptions"
+          placeholder="Выберите количество"
+          optionLabel="label"
+          optionValue="value"
+          [invalid]="form.get(formKeys.Dependents)?.invalid && form.get(formKeys.Dependents)?.touched"
+          [fluid]="true">
+        </p-select>
+        @if (form.get(formKeys.Dependents)?.invalid && form.get(formKeys.Dependents)?.touched) {
+          <small
+            class="text-red-500 block mt-2"
+            [id]="formKeys.Dependents + '-help'"
+          >
+            @if (form.get(formKeys.Dependents)?.hasError('required')) {
+              Обязательное поле
+            }
+          </small>
+        }
+      </div>
+    </form>
+  </div>
+</app-questionnaire-layout>
