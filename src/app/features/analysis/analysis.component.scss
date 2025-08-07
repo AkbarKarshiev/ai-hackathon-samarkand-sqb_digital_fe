@@ -1,0 +1,94 @@
+// Financial Card Gradient Background
+.financial-card {
+  .card-gradient {
+    background: linear-gradient(135deg,
+      #a8b5c8 0%,     // Light blue-gray at top
+      #7a8aa3 25%,    // Medium blue-gray
+      #5d708a 50%,    // Darker blue-gray
+      #4a5f7a 75%,    // Even darker
+      #3d5269 100%    // Darkest blue at bottom
+    );
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 216px;
+  }
+
+  .card-bottom {
+    @apply bg-gray-900;
+    backdrop-filter: blur(10px);
+    margin-top: auto;
+  }
+}
+
+// AI Chat Button Gradient
+.ai-chat-button {
+  background: linear-gradient(135deg,
+    #f59e0b 0%,     // Amber
+    #d97706 25%,    // Darker amber
+    #92400e 50%,    // Brown-amber
+    #451a03 100%    // Dark brown
+  );
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+  }
+
+  &:active {
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+  }
+}
+
+// Animation for card entrance
+.financial-card {
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Expense list styling
+.expense-item {
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    padding: 8px;
+    margin: -8px;
+  }
+}
+
+// Investment section highlighting
+.investment-section {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.1) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.ai-assistant-container {
+  @apply p-4;
+  cursor: pointer;
+  background: color-mix(in srgb, #fff, transparent 50%);
+  backdrop-filter: blur(20px);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

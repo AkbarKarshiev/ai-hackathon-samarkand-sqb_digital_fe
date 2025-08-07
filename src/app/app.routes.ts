@@ -17,6 +17,10 @@ export const routes: Routes = [
       .then(m => m.QuestionnaireContainerComponent)
   },
   {
+    path: 'analysis',
+    loadComponent: () => import('./features/analysis/analysis.component').then(m => m.AnalysisComponent)
+  },
+  {
     path: '**',
     redirectTo: '',
   }

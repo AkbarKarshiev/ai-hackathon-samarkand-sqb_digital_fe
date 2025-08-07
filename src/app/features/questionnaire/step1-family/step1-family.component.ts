@@ -91,6 +91,7 @@ export class Step1FamilyComponent {
 
     this.questionnaireService.createUser(familyData).pipe(
       finalize(() => {
+        this.completed.emit(familyData);
         this.isSubmitting.set(false);
       }),
       takeUntilDestroyed(this.destroyRef),

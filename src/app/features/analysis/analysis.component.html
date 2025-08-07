@@ -1,0 +1,130 @@
+<!-- Main Layout -->
+<div class="analysis-layout h-screen-safe flex flex-col bg-white overflow-x-hidden relative">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 px-4 py-3 flex items-center z-40">
+    <p-button
+      (onClick)="goBack()"
+      icon="pi pi-arrow-left"
+      variant="text"
+      [rounded]="true"
+      class="mr-2"
+      ariaLabel="Назад">
+    </p-button>
+    <h1 class="flex-1 text-center text-lg font-medium text-gray-900 pr-12">
+      Финансовый анализ
+    </h1>
+  </header>
+
+  <!-- Main Content - Scrollable -->
+  <main class="flex-1 overflow-y-auto px-5 pt-8 pb-14">
+
+    <!-- Financial Summary Card -->
+    <div class="financial-card rounded-2xl overflow-hidden mb-9 shadow-lg">
+
+      <!-- Card Background with Gradient -->
+      <div class="card-gradient relative">
+
+        <!-- Top Section - Balance -->
+        <div class="p-6 pb-4">
+          <p class="text-white text-base leading-5 font-medium mb-2">Остаток на счету</p>
+          <h2 class="text-white text-3xl font-bold">
+            {{ formatCurrency(financialData().balance) }} UZS
+          </h2>
+        </div>
+
+        <!-- Bottom Section - Salary Info -->
+        <div class="card-bottom bg-gray-900 backdrop-blur-sm p-6 flex justify-between items-center">
+          <div>
+            <p class="text-blue-100 text-sm mb-1">Зарплата</p>
+            <p class="text-white text-xl font-semibold">
+              {{ formatCurrency(financialData().salary) }} UZS
+            </p>
+          </div>
+          <div class="text-right">
+            <p class="text-blue-100 text-sm mb-1">До зарплаты</p>
+            <p class="text-white text-xl font-semibold">
+              {{ financialData().daysUntilSalary }} дней
+            </p>
+          </div>
+        </div>
+
+        <!-- Decorative Circle Elements -->
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full"></div>
+        <div class="absolute bottom-8 right-8 w-20 h-20 bg-white/5 rounded-full"></div>
+      </div>
+    </div>
+
+    <!-- Family and Financial Status -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">
+        Семейное и финансовое положение
+      </h3>
+      <p class="text-gray-900 mb-4">{{ financialData().maritalStatus }}</p>
+
+      <!-- Expense Progress Bar -->
+      <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-4">
+        <div class="h-full bg-gradient-to-r from-amber-600 to-emerald-600"></div>
+      </div>
+
+      <!-- Expense List -->
+      <div class="space-y-3 mb-6">
+        @for (expense of financialData().expenses; track expense.name) {
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div
+                class="w-3 h-3 rounded-full mr-3"
+                [style.background-color]="expense.color">
+              </div>
+              <span class="text-gray-700">{{ expense.name }}</span>
+            </div>
+            <span class="font-semibold text-gray-900">
+              {{ formatCurrency(expense.amount) }} сум
+            </span>
+          </div>
+        }
+      </div>
+
+      <!-- Available for Investment -->
+      <div class="border-t pt-4">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-gray-700">Общие обязательства</span>
+          <div class="text-right">
+            <div class="text-2xl text-red-900">
+              {{ formatCurrency(financialData().availableForInvestment) }}
+            </div>
+            <div class="text-sm text-red-900">сум/месяц</div>
+          </div>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-gray-700">Свободно для инвестиций</span>
+          <div class="text-right">
+            <div class="text-2xl text-green-900">
+              {{ formatCurrency(financialData().availableForInvestment) }}
+            </div>
+            <div class="text-sm text-green-900">сум/месяц</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <div class="py-6 px-4 bg-red-50 text-red-900 rounded-lg border-0">
+        Some text
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Fixed Bar -->
+  <div class="ai-assistant-container">
+    <div class="flex items-center gap-2">
+      <span class="pi pi-sparkles text-orange-500 text-2xl"></span>
+      <p class="text-base">
+        Как я могу вам помочь?
+      </p>
+    </div>
+    <div class="flex items-center">
+      <span class="pi pi-send text-orange-500 text-2xl"></span>
+    </div>
+  </div>
+</div>
