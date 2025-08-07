@@ -2,25 +2,43 @@
   [showHeader]="true"
   [isSubmitting]="isSubmitting()"
   [nextButtonText]="'Завершить'"
-  (nextClicked)="handleNext()">
+  (nextClicked)="handleNext()"
+  (goBackClicked)="handleGoBack()">
 
   <div class="px-6 py-8">
     <h1 class="text-2xl font-bold text-gray-900 mb-8 text-center">Текущий баланс</h1>
 
-    <div class="space-y-6">
-      <div>
-        <label class="block text-gray-900 font-medium mb-3">Ваш текущий баланс</label>
-        <p-inputnumber
-          [(ngModel)]="balanceData().currentBalance"
-          (ngModelChange)="updateBalance($event)"
+    <!-- Reactive Form -->
+    <form [formGroup]="form" class="space-y-6">
+      <div class="mb-6">
+        <label [for]="formKeys.CurrentBalance" class="block text-gray-900 font-medium mb-3">Ваш текущий баланс</label>
+        <p-input-number
+          [id]="formKeys.CurrentBalance"
+          [inputId]="formKeys.CurrentBalance"
+          [formControlName]="formKeys.CurrentBalance"
+          [invalid]="form.get(formKeys.CurrentBalance)?.invalid && form.get(formKeys.CurrentBalance)?.touched"
           placeholder="Введите сумму"
           mode="currency"
+          [minFractionDigits]="0"
+          [maxFractionDigits]="0"
           currency="UZS"
-          locale="uz-UZ"
+          locale="ru-RU"
           [min]="0"
-          [fluid]="true"
-          styleClass="w-full">
-        </p-inputnumber>
+          [fluid]="true">
+        </p-input-number>
+        @if (form.get(formKeys.CurrentBalance)?.invalid && form.get(formKeys.CurrentBalance)?.touched) {
+          <small
+            class="text-red-500 block mt-2"
+            [id]="formKeys.CurrentBalance + '-help'"
+          >
+            @if (form.get(formKeys.CurrentBalance)?.hasError('required')) {
+              Обязательное поле
+            }
+            @if (form.get(formKeys.CurrentBalance)?.hasError('min')) {
+              Баланс не может быть отрицательным
+            }
+          </small>
+        }
       </div>
 
       <div class="p-4 bg-blue-50 rounded-xl">
@@ -28,6 +46,6 @@
           Укажите общую сумму денежных средств, которые у вас есть на данный момент на всех счетах и в наличии.
         </p>
       </div>
-    </div>
+    </form>
   </div>
 </app-questionnaire-layout>

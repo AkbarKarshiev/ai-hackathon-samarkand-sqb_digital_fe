@@ -17,9 +17,10 @@ export class QuestionnaireLayoutComponent {
   public title = input('Финансовый анализ');
 
   public nextClicked = output<void>();
+  public goBackClicked = output<void>();
 
   public goBack(): void {
-    this.router.navigate(['/welcome']);
+    this.goBackClicked.emit();
   }
 
   public onNext(): void {

@@ -1,27 +1,33 @@
+<!-- Toast Messages -->
+<p-toast position="top-center" styleClass="mt-16"></p-toast>
+
 <app-questionnaire-layout
   [showHeader]="true"
   [isSubmitting]="isSubmitting()"
-  (nextClicked)="handleNext()">
+  (nextClicked)="handleNext()"
+  (goBackClicked)="handleGoBack()">
 
   <div class="px-6 py-8">
     <h1 class="text-2xl font-bold text-gray-900 mb-8 text-center">Расходы</h1>
 
     <div class="grid grid-cols-3 gap-4">
       @for (category of categories; track category.id) {
-        <button
+                <button
           (click)="toggleCategory(category.id)"
           [class]="getCategoryClasses(category.id)"
-          class="aspect-square rounded-2xl flex flex-col items-center justify-center p-4 text-center transition-all duration-200 touch-target">
-          <div class="text-2xl mb-2">{{ category.icon }}</div>
-          <span class="text-xs font-medium leading-tight">{{ category.name }}</span>
+          class="aspect-square rounded-2xl flex flex-col p-4 text-center transition-all duration-200 touch-target"
+        >
+          <div class="flex-shrink-0 flex justify-center mb-0 mt-3">
+            <app-expense-icon
+              [iconName]="category.icon"
+              [isSelected]="selectedCategories().includes(category.id)">
+            </app-expense-icon>
+          </div>
+          <div class="flex-1 flex items-center justify-center">
+            <span class="text-xs font-medium leading-tight">{{ category.name }}</span>
+          </div>
         </button>
       }
-    </div>
-
-    <div class="mt-8 text-center">
-      <p class="text-sm text-gray-600">
-        Выбрано: {{ selectedCategories().length }} {{ getCategoryWord() }}
-      </p>
     </div>
   </div>
 </app-questionnaire-layout>

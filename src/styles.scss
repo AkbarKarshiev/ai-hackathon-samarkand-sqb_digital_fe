@@ -1,3 +1,5 @@
+@import "primeicons/primeicons.css";
+
 @layer tailwind-base, primeng, tailwind-utilities;
 
 @layer tailwind-base {
@@ -50,4 +52,8 @@ body::-webkit-scrollbar {
   .no-select {
     @apply select-none;
   }
+}
+
+.p-progressbar-value {
+  background: var(--p-sky-500);
 }

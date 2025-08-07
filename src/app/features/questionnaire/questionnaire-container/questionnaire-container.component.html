@@ -2,21 +2,35 @@
   <div [@slideAnimation]="currentStep()">
     @switch (currentStep()) {
       @case (1) {
-        <app-step1-family (completed)="onFamilyCompleted($event)"/>
+        <app-step1-family
+          [initialFamilyData]="questionnaireData().family"
+          (completed)="onFamilyCompleted($event)"
+          (goBack)="onGoBack()"/>
       }
       @case (2) {
-        <app-step2-expense-categories (completed)="onExpenseCategoriesCompleted($event)"/>
+        <app-step2-expense-categories
+          [initialSelectedCategories]="questionnaireData().expenses.selectedCategories"
+          (completed)="onExpenseCategoriesCompleted($event)"
+          (goBack)="onGoBack()"/>
       }
       @case (3) {
         <app-step3-expense-amounts
           [selectedCategoryIds]="questionnaireData().expenses.selectedCategories"
-          (completed)="onExpenseAmountsCompleted($event)"/>
+          [initialAmounts]="questionnaireData().expenses.amounts"
+          (completed)="onExpenseAmountsCompleted($event)"
+          (goBack)="onGoBack()"/>
       }
       @case (4) {
-        <app-step4-income (completed)="onIncomeCompleted($event)"/>
+        <app-step4-income
+          [initialIncomeData]="questionnaireData().income"
+          (completed)="onIncomeCompleted($event)"
+          (goBack)="onGoBack()"/>
       }
       @case (5) {
-        <app-step5-balance (completed)="onBalanceCompleted($event)"/>
+        <app-step5-balance
+          [initialBalanceData]="questionnaireData().balance"
+          (completed)="onBalanceCompleted($event)"
+          (goBack)="onGoBack()"/>
       }
     }
   </div>

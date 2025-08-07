@@ -1,24 +1,41 @@
 import { CommonModule } from '@angular/common';
-import { Component, output, signal } from '@angular/core';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { ToastModule } from 'primeng/toast';
 
+import { ExpenseIconComponent } from '../../../shared/components/expense-icon/expense-icon.component';
 import { EXPENSE_CATEGORIES } from '../models/questionnaire.types';
 import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionnaire-layout.component';
 
 @Component({
   selector: 'app-step2-expense-categories',
   standalone: true,
-  imports: [CommonModule, SelectButtonModule, QuestionnaireLayoutComponent],
+  imports: [CommonModule, SelectButtonModule, ToastModule, QuestionnaireLayoutComponent, ExpenseIconComponent],
+  providers: [MessageService],
   templateUrl: './step2-expense-categories.component.html'
 })
 export class Step2ExpenseCategoriesComponent {
-  categories = EXPENSE_CATEGORIES;
-  selectedCategories = signal<string[]>([]);
-  isSubmitting = signal(false);
+  private readonly messageService = inject(MessageService);
 
-  completed = output<string[]>();
+  // Input for previously selected categories (for persistence when navigating back)
+  public initialSelectedCategories = input<string[]>([]);
 
-  toggleCategory(categoryId: string): void {
+  public readonly categories = EXPENSE_CATEGORIES;
+  public selectedCategories = signal<string[]>([]);
+  public isSubmitting = signal(false);
+
+  public completed = output<string[]>();
+  public goBack = output<void>();
+
+  constructor() {
+    // Initialize selectedCategories with input data when it changes
+    effect(() => {
+      this.selectedCategories.set(this.initialSelectedCategories());
+    });
+  }
+
+  public toggleCategory(categoryId: string): void {
     const current = this.selectedCategories();
     const index = current.indexOf(categoryId);
 
@@ -29,31 +46,43 @@ export class Step2ExpenseCategoriesComponent {
     }
   }
 
-  getCategoryClasses(categoryId: string): string {
+  public getCategoryClasses(categoryId: string): string {
     const isSelected = this.selectedCategories().includes(categoryId);
     return isSelected
-      ? 'bg-blue-500 text-white shadow-lg'
-      : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-300';
+      ? 'bg-sky-500 text-white shadow-lg'
+      : 'bg-blue-50 text-gray-900';
   }
 
-  getCategoryWord(): string {
+  public getCategoryWord(): string {
     const count = this.selectedCategories().length;
     if (count === 1) return 'категория';
     if (count >= 2 && count <= 4) return 'категории';
     return 'категорий';
   }
 
-  isValid(): boolean {
+  public isValid(): boolean {
     return this.selectedCategories().length > 0;
   }
 
-  async handleNext(): Promise<void> {
-    if (!this.isValid()) return;
+  public async handleNext(): Promise<void> {
+    if (!this.isValid()) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Ошибка',
+        detail: 'Не выбрана ни одна категория',
+        life: 3000
+      });
+      return;
+    }
 
     this.isSubmitting.set(true);
     await new Promise(resolve => setTimeout(resolve, 500));
     this.isSubmitting.set(false);
 
     this.completed.emit(this.selectedCategories());
+  }
+
+  public handleGoBack(): void {
+    this.goBack.emit();
   }
 }

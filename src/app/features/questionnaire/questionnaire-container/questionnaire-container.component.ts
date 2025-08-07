@@ -41,7 +41,7 @@ export class QuestionnaireContainerComponent {
   currentStep = signal(1);
 
   questionnaireData = signal<QuestionnaireData>({
-    family: { maritalStatus: '', dependents: '' },
+    family: { maritalStatus: '', dependents: 0 },
     expenses: { selectedCategories: [], amounts: {} },
     income: { salary: 0, otherIncome: 0 },
     balance: { currentBalance: 0 }
@@ -93,6 +93,17 @@ export class QuestionnaireContainerComponent {
 
     // Submit data and navigate to analysis
     this.submitQuestionnaire();
+  }
+
+  onGoBack(): void {
+    const current = this.currentStep();
+    if (current === 1) {
+      // Go back to welcome page from step 1
+      this.router.navigate(['/welcome']);
+    } else {
+      // Go back to previous step
+      this.currentStep.set(current - 1);
+    }
   }
 
   private async submitQuestionnaire(): Promise<void> {

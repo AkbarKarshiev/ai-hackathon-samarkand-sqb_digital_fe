@@ -1,7 +1,8 @@
 <app-questionnaire-layout
   [showHeader]="true"
   [isSubmitting]="isSubmitting()"
-  (nextClicked)="handleNext()">
+  (nextClicked)="handleNext()"
+  (goBackClicked)="handleGoBack()">
 
   <div class="px-6 py-8">
     <!-- Title -->
@@ -44,16 +45,18 @@
       <!-- Dependents -->
       <div class="mb-6">
         <label [for]="formKeys.Dependents" class="block text-gray-900 font-medium mb-3">На попечении</label>
-        <p-select
+        <p-input-number
           [id]="formKeys.Dependents"
+          [inputId]="formKeys.Dependents"
           [formControlName]="formKeys.Dependents"
-          [options]="dependentsOptions"
-          placeholder="Выберите количество"
-          optionLabel="label"
-          optionValue="value"
-          [invalid]="form.get(formKeys.Dependents)?.invalid && form.get(formKeys.Dependents)?.touched"
-          [fluid]="true">
-        </p-select>
+          [fluid]="true"
+          [useGrouping]="false"
+          [minFractionDigits]="0"
+          [maxFractionDigits]="0"
+          [min]="0"
+          [max]="20"
+          mode="decimal"
+        ></p-input-number>
         @if (form.get(formKeys.Dependents)?.invalid && form.get(formKeys.Dependents)?.touched) {
           <small
             class="text-red-500 block mt-2"

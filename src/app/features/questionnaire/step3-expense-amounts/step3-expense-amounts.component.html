@@ -1,28 +1,46 @@
 <app-questionnaire-layout
   [showHeader]="true"
   [isSubmitting]="isSubmitting()"
-  (nextClicked)="handleNext()">
+  (nextClicked)="handleNext()"
+  (goBackClicked)="handleGoBack()">
 
   <div class="px-6 py-8">
     <h1 class="text-2xl font-bold text-gray-900 mb-8 text-center">Расходы</h1>
 
-    <div class="space-y-6">
+    <!-- Reactive Form -->
+    <form [formGroup]="form" class="space-y-6">
       @for (category of selectedCategoriesData(); track category.id) {
-        <div>
-          <label class="block text-gray-900 font-medium mb-3">{{ category.name }}</label>
-          <p-inputnumber
-            [(ngModel)]="amounts()[category.id]"
-            (ngModelChange)="updateAmount(category.id, $event)"
+        <div class="mb-6">
+          <label [for]="category.id" class="block text-gray-900 font-medium mb-3">{{ category.name }}</label>
+          <p-input-number
+            [id]="category.id"
+            [inputId]="category.id"
+            [formControlName]="category.id"
+            [invalid]="form.get(category.id)?.invalid && form.get(category.id)?.touched"
             placeholder="Введите сумму"
             mode="currency"
             currency="UZS"
-            locale="uz-UZ"
+            locale="ru-RU"
+            [minFractionDigits]="0"
+            [maxFractionDigits]="0"
             [min]="0"
-            [fluid]="true"
-            styleClass="w-full">
-          </p-inputnumber>
+            [fluid]="true">
+          </p-input-number>
+          @if (form.get(category.id)?.invalid && form.get(category.id)?.touched) {
+            <small
+              class="text-red-500 block mt-2"
+              [id]="category.id + '-help'"
+            >
+              @if (form.get(category.id)?.hasError('required')) {
+                Обязательное поле
+              }
+              @if (form.get(category.id)?.hasError('min')) {
+                Сумма должна быть больше 0
+              }
+            </small>
+          }
         </div>
       }
-    </div>
+    </form>
   </div>
 </app-questionnaire-layout>

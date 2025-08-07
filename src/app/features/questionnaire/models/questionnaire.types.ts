@@ -1,6 +1,6 @@
 export interface FamilyInfo {
   maritalStatus: string;
-  dependents: string;
+  dependents: number;
 }
 
 export interface ExpenseCategory {
@@ -32,21 +32,21 @@ export interface QuestionnaireData {
 }
 
 export const EXPENSE_CATEGORIES: ExpenseCategory[] = [
-  { id: 'rent', name: 'Аренда жилья', icon: '🏠' },
-  { id: 'utilities', name: 'Коммунальные услуги', icon: '🏘️' },
-  { id: 'government', name: 'Государственные услуги', icon: '📄' },
-  { id: 'food', name: 'Продукты питания', icon: '🛒' },
-  { id: 'education', name: 'Образование', icon: '🎓' },
-  { id: 'internet', name: 'Интернет и связь', icon: '📶' },
-  { id: 'credits', name: 'Кредиты', icon: '💳' },
-  { id: 'insurance', name: 'Страхование', icon: '✅' },
-  { id: 'medical', name: 'Медицинские расходы', icon: '💊' },
-  { id: 'charity', name: 'Благотворительность', icon: '❤️' },
-  { id: 'childcare', name: 'Детский сад, школа', icon: '📚' },
-  { id: 'taxes', name: 'Налоги', icon: '📋' },
-  { id: 'work', name: 'Расходы на работу', icon: '💼' },
-  { id: 'transport', name: 'Транспорт', icon: '🚗' },
-  { id: 'alimony', name: 'Алименты', icon: '👨‍👩‍👧' },
+  { id: 'rent', name: 'Аренда жилья', icon: 'house.svg' },
+  { id: 'utilities', name: 'Коммунальные услуги', icon: 'home-hashtag.svg' },
+  { id: 'government', name: 'Государственные услуги', icon: 'receipt-item.svg' },
+  { id: 'food', name: 'Продукты питания', icon: 'bag.svg' },
+  { id: 'education', name: 'Образование', icon: 'book.svg' },
+  { id: 'internet', name: 'Интернет и связь', icon: 'wifi.svg' },
+  { id: 'credits', name: 'Кредиты', icon: 'percentage-square.svg' },
+  { id: 'insurance', name: 'Страхование', icon: 'shield-tick.svg' },
+  { id: 'medical', name: 'Медицинские расходы', icon: 'heart-tick.svg' },
+  { id: 'charity', name: 'Благотворительность', icon: 'lovely.svg' },
+  { id: 'childcare', name: 'Детский сад, школа', icon: 'teacher.svg' },
+  { id: 'taxes', name: 'Налоги', icon: 'receipt-edit.svg' },
+  { id: 'work', name: 'Расходы на работу', icon: 'briefcase.svg' },
+  { id: 'transport', name: 'Транспорт', icon: 'car.svg' },
+  { id: 'alimony', name: 'Алименты', icon: 'wallet-add.svg' },
 ];
 
 export const MARITAL_STATUS_OPTIONS = [

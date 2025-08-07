@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed,input, output, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
 
 import { EXPENSE_CATEGORIES } from '../models/questionnaire.types';
@@ -9,44 +9,67 @@ import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionna
 @Component({
   selector: 'app-step3-expense-amounts',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputNumberModule, QuestionnaireLayoutComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputNumberModule, QuestionnaireLayoutComponent],
   templateUrl: './step3-expense-amounts.component.html'
 })
 export class Step3ExpenseAmountsComponent {
-  selectedCategoryIds = input.required<string[]>();
+  public selectedCategoryIds = input.required<string[]>();
+  // Input for previously entered amounts (for persistence when navigating back)
+  public initialAmounts = input<Record<string, number>>({});
 
-  amounts = signal<Record<string, number>>({});
-  isSubmitting = signal(false);
-  completed = output<Record<string, number>>();
+  public isSubmitting = signal(false);
+  public completed = output<Record<string, number>>();
+  public goBack = output<void>();
 
-  selectedCategoriesData = computed(() => {
+  public selectedCategoriesData = computed(() => {
     return EXPENSE_CATEGORIES.filter(cat =>
       this.selectedCategoryIds().includes(cat.id)
     );
   });
 
-  updateAmount(categoryId: string, value: number | null): void {
-    this.amounts.update(current => ({
-      ...current,
-      [categoryId]: value || 0
-    }));
-  }
+  // Dynamic Reactive Form
+  public form = new FormGroup({});
 
-  isValid(): boolean {
-    const currentAmounts = this.amounts();
-    return this.selectedCategoryIds().every(categoryId => {
-      const amount = currentAmounts[categoryId];
-      return amount !== undefined && amount > 0;
+    constructor() {
+    // Create form controls when selectedCategoryIds changes
+    effect(() => {
+      const categoryIds = this.selectedCategoryIds();
+      const amounts = this.initialAmounts();
+
+      // Clear existing controls
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.removeControl(key);
+      });
+
+      // Add new controls for each category with stored values
+      categoryIds.forEach(categoryId => {
+        const initialValue = amounts[categoryId] || 0;
+        this.form.addControl(categoryId, new FormControl(initialValue, {
+          validators: [Validators.required, Validators.min(1)]
+        }));
+      });
     });
   }
 
-  async handleNext(): Promise<void> {
+  private isValid(): boolean {
+    return this.form.valid;
+  }
+
+  public async handleNext(): Promise<void> {
+    // Mark all fields as touched to trigger validation display
+    this.form.markAllAsTouched();
+
     if (!this.isValid()) return;
 
     this.isSubmitting.set(true);
     await new Promise(resolve => setTimeout(resolve, 600));
     this.isSubmitting.set(false);
 
-    this.completed.emit(this.amounts());
+    // Emit the form values
+    this.completed.emit(this.form.value as Record<string, number>);
+  }
+
+  public handleGoBack(): void {
+    this.goBack.emit();
   }
 }

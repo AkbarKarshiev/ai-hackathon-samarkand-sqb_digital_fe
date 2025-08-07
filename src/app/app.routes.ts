@@ -1,12 +1,20 @@
 import { Routes } from '@angular/router';
 
-import { QuestionnaireContainerComponent } from './features/questionnaire/questionnaire-container/questionnaire-container.component';
-
 export const routes: Routes = [
   {
     path: '',
-    component: QuestionnaireContainerComponent,
-    pathMatch: 'full',
+    redirectTo: '/welcome',
+    pathMatch: 'full'
+  },
+  {
+    path: 'welcome',
+    loadComponent: () => import('./features/welcome/welcome.component').then(m => m.WelcomeComponent)
+  },
+  {
+    path: 'questionnaire',
+    loadComponent: () =>
+      import('./features/questionnaire/questionnaire-container/questionnaire-container.component')
+      .then(m => m.QuestionnaireContainerComponent)
   },
   {
     path: '**',
