@@ -1,6 +1,6 @@
 export interface FamilyInfo {
   maritalStatus: string;
-  dependents: number;
+  dependentPeople: number;
 }
 
 export interface ExpenseCategory {
@@ -37,14 +37,14 @@ export const EXPENSE_CATEGORIES: ExpenseCategory[] = [
   { id: 'government', name: 'Государственные услуги', icon: 'receipt-item.svg' },
   { id: 'food', name: 'Продукты питания', icon: 'bag.svg' },
   { id: 'education', name: 'Образование', icon: 'book.svg' },
-  { id: 'internet', name: 'Интернет и связь', icon: 'wifi.svg' },
-  { id: 'credits', name: 'Кредиты', icon: 'percentage-square.svg' },
+  { id: 'internet-and-communication', name: 'Интернет и связь', icon: 'wifi.svg' },
+  { id: 'loans', name: 'Кредиты', icon: 'percentage-square.svg' },
   { id: 'insurance', name: 'Страхование', icon: 'shield-tick.svg' },
   { id: 'medical', name: 'Медицинские расходы', icon: 'heart-tick.svg' },
   { id: 'charity', name: 'Благотворительность', icon: 'lovely.svg' },
   { id: 'childcare', name: 'Детский сад, школа', icon: 'teacher.svg' },
   { id: 'taxes', name: 'Налоги', icon: 'receipt-edit.svg' },
-  { id: 'work', name: 'Расходы на работу', icon: 'briefcase.svg' },
+  { id: 'work-related', name: 'Расходы на работу', icon: 'briefcase.svg' },
   { id: 'transport', name: 'Транспорт', icon: 'car.svg' },
   { id: 'alimony', name: 'Алименты', icon: 'wallet-add.svg' },
 ];

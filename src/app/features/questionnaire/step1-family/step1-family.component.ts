@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, input, output, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
+import { finalize } from 'rxjs/operators';
 
-import { DEPENDENTS_OPTIONS, FamilyInfo, MARITAL_STATUS_OPTIONS } from '../models/questionnaire.types';
+import { LocalStorageService } from '../../../core/storage/services';
+import { DEPENDENTS_OPTIONS, FamilyInfo, MARITAL_STATUS_OPTIONS } from '../models';
 import { QuestionnaireLayoutComponent } from '../questionnaire-layout/questionnaire-layout.component';
+import { QuestionnaireService } from '../services';
 
-// Form interface and keys
 interface FamilyFormControls {
   maritalStatus: FormControl<string>;
   dependents: FormControl<number>;
@@ -31,8 +34,11 @@ const FAMILY_FORM_KEYS = {
   templateUrl: './step1-family.component.html',
 })
 export class Step1FamilyComponent {
-  // Input for previously entered family data (for persistence when navigating back)
-  public initialFamilyData = input<FamilyInfo>({ maritalStatus: '', dependents: 0 });
+  private readonly questionnaireService = inject(QuestionnaireService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly localStorageService = inject(LocalStorageService);
+
+  public initialFamilyData = input<FamilyInfo>({ maritalStatus: '', dependentPeople: 0 });
 
   public readonly maritalStatusOptions = MARITAL_STATUS_OPTIONS;
   public readonly dependentsOptions = DEPENDENTS_OPTIONS;
@@ -61,7 +67,7 @@ export class Step1FamilyComponent {
       const familyData = this.initialFamilyData();
       this.form.patchValue({
         [FAMILY_FORM_KEYS.MaritalStatus]: familyData.maritalStatus,
-        [FAMILY_FORM_KEYS.Dependents]: familyData.dependents,
+        [FAMILY_FORM_KEYS.Dependents]: familyData.dependentPeople,
       });
     });
   }
@@ -78,18 +84,22 @@ export class Step1FamilyComponent {
 
     this.isSubmitting.set(true);
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
-    this.isSubmitting.set(false);
-
-    // Emit the form value that matches FamilyInfo interface
     const familyData: FamilyInfo = {
       maritalStatus: this.form.value[FAMILY_FORM_KEYS.MaritalStatus]!,
-      dependents: this.form.value[FAMILY_FORM_KEYS.Dependents]!,
+      dependentPeople: this.form.value[FAMILY_FORM_KEYS.Dependents]!,
     };
 
-    this.completed.emit(familyData);
+    this.questionnaireService.createUser(familyData).pipe(
+      finalize(() => {
+        this.isSubmitting.set(false);
+      }),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
+      next: (response) => {
+        this.localStorageService.setItem('userId', response.id);
+        this.completed.emit(familyData);
+      },
+    });
   }
 
   public handleGoBack(): void {
