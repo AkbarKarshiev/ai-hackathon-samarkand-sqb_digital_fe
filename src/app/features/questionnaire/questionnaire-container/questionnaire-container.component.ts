@@ -41,7 +41,7 @@ export class QuestionnaireContainerComponent {
   currentStep = signal(1);
 
   questionnaireData = signal<QuestionnaireData>({
-    family: { maritalStatus: '', dependentPeople: 0 },
+    family: { martialStatus: '', dependentPeople: 0 },
     expenses: { selectedCategories: [], amounts: {} },
     income: { salary: 0, otherIncome: 0 },
     balance: { currentBalance: 0 }

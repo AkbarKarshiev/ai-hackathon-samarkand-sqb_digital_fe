@@ -1,0 +1,47 @@
+<div class="mb-6">
+  <div class="py-6 px-4 rounded-xl border-0"
+       [class]="getStatusConfig(data().liquidityStatus).bgColor + ' ' + getStatusConfig(data().liquidityStatus).textColor">
+
+    <!-- Header with Badge -->
+    <div class="flex justify-between items-start mb-4">
+      <div class="text-2xl font-bold">
+        {{ getStatusConfig(data().liquidityStatus).title }}
+      </div>
+      <div class="px-3 py-1 rounded-full text-sm font-medium"
+           [class]="getStatusConfig(data().liquidityStatus).badgeBgColor">
+        {{ getStatusConfig(data().liquidityStatus).emoji }} {{ getStatusConfig(data().liquidityStatus).badgeText }}
+      </div>
+    </div>
+
+    <!-- Content based on status -->
+    @if (data().liquidityStatus === 'good') {
+      <div class="space-y-2">
+        <div class="text-base">
+          {{ formatCurrency(data().dailyBudget || 0) }} сум/день до зарплаты - отличный показатель!
+        </div>
+        <div class="text-base">
+          Имеются {{ formatCurrency(data().availableForInvestment || 0) }} сум для инвестиций
+        </div>
+      </div>
+    } @else if (data().liquidityStatus === 'critical') {
+      <div class="space-y-2">
+        <div class="text-base">
+          {{ formatCurrency(data().dailyBudget || 0) }} сум/день до зарплаты - это критически малая сумма
+        </div>
+        <div class="text-base">
+          Долговая нагрузка на ваш бюджет: {{ data().totalExpenses && data().availableForInvestment ?
+            (((data().totalExpenses! - data().availableForInvestment!) / data().totalExpenses!) * 100).toFixed(1) : '0' }}% (опасно)
+        </div>
+      </div>
+    } @else if (data().liquidityStatus === 'moderate') {
+      <div class="space-y-2">
+        <div class="text-base">
+          {{ formatCurrency(data().dailyBudget || 0) }} сум/день до зарплаты - требует внимания
+        </div>
+        <div class="text-base">
+          Доступно для инвестиций: {{ formatCurrency(data().availableForInvestment || 0) }} сум
+        </div>
+      </div>
+    }
+  </div>
+</div>

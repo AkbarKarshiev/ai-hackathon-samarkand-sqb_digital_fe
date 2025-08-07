@@ -1,0 +1,35 @@
+<!-- Financial Summary Card -->
+<div class="financial-card rounded-2xl overflow-hidden mb-9 shadow-lg">
+
+  <!-- Card Background with Gradient -->
+  <div class="card-gradient relative">
+
+    <!-- Top Section - Balance -->
+    <div class="p-6 pb-4">
+      <p class="text-white text-base leading-5 font-medium mb-2">Остаток на счету</p>
+      <h2 class="text-white text-3xl font-bold">
+        {{ formatCurrency(data().balance) }} UZS
+      </h2>
+    </div>
+
+    <!-- Bottom Section - Salary Info -->
+    <div class="card-bottom bg-gray-900 backdrop-blur-sm p-6 flex justify-between items-center">
+      <div>
+        <p class="text-blue-100 text-sm mb-1">Зарплата</p>
+        <p class="text-white text-xl font-semibold">
+          {{ formatCurrency(data().salary) }} UZS
+        </p>
+      </div>
+      <div class="text-right">
+        <p class="text-blue-100 text-sm mb-1">До зарплаты</p>
+        <p class="text-white text-xl font-semibold">
+          {{ data().daysUntilSalary }} дней
+        </p>
+      </div>
+    </div>
+
+    <!-- Decorative Circle Elements -->
+    <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full"></div>
+    <div class="absolute bottom-8 right-8 w-20 h-20 bg-white/5 rounded-full"></div>
+  </div>
+</div>

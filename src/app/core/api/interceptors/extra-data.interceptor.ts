@@ -11,7 +11,7 @@ export const requestHeadersInterceptor = (
 
   req = req.clone({
     setHeaders: {
-      // 'ngrok-skip-browser-warning': 'true'
+      'ngrok-skip-browser-warning': 'true'
     }
   });
 

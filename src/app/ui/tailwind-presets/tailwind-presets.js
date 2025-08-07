@@ -1,9 +1,15 @@
 import colors from 'tailwindcss/colors'
+import defaultTheme from 'tailwindcss/defaultTheme'
 import { colorPalette } from '../colors/color-palette'
 
 /** @type {import('tailwindcss').Config} */
 export default {
   theme: {
+    borderRadius: {
+      ...defaultTheme.borderRadius,
+      'xl': '16px',
+      '2xl': '20px',
+    },
     screens: {
       // Mobile-first breakpoints
       'xs': '375px',   // Small phones
@@ -20,7 +26,6 @@ export default {
     },
     colors: {
       ...colorPalette,
-      green: colors.green,
       orange: colors.orange,
       zinc: colors.zinc,
       transparent: 'transparent',

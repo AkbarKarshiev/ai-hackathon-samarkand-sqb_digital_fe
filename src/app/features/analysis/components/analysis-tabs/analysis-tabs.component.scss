@@ -1,0 +1,65 @@
+// Custom Tab Container
+.custom-tab-container {
+  @apply bg-gray-500;
+  border: none;
+  border-radius: 20px;
+  padding: 4px;
+  display: inline-flex;
+  gap: 0;
+  width: 100%;
+}
+
+// Custom Tab Button
+.custom-tab-button {
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 24px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-width: 120px;
+
+  &:not(.active) {
+    @apply text-blue-50 bg-transparent;
+  }
+
+  &.active {
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  &:hover:not(.active) {
+    @apply text-blue-50 bg-transparent;
+  }
+}
+
+// Tab Content Wrapper
+.tab-content-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+// Tab Content with Animation
+.tab-content {
+  transition: transform 0.3s ease-in-out;
+  padding: 0 16px 56px;
+}
+
+.tab-content.slide-right {
+  transform: translateX(100%);
+}
+
+.tab-content.slide-left {
+  transform: translateX(-100%);
+}

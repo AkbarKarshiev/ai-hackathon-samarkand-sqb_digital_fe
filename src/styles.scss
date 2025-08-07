@@ -57,3 +57,33 @@ body::-webkit-scrollbar {
 .p-progressbar-value {
   background: var(--p-sky-500);
 }
+
+
+//   .p-selectbutton {
+//     .p-button {
+//       background: #374151;
+//       border: 1px solid #4B5563;
+//       color: #9CA3AF;
+//       border-radius: 8px;
+//       padding: 12px 24px;
+//       font-weight: 500;
+//       transition: all 0.2s ease;
+
+//       &:not(.p-highlight) {
+//         background: #374151;
+//         border-color: #4B5563;
+//         color: #9CA3AF;
+//       }
+
+//       &.p-highlight {
+//         background: #6B7280;
+//         border-color: #9CA3AF;
+//         color: white;
+//       }
+
+//       &:focus {
+//         box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.2);
+//       }
+//     }
+//   }
+// }

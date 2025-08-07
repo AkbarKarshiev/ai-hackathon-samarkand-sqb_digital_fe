@@ -38,7 +38,7 @@ export class Step1FamilyComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly localStorageService = inject(LocalStorageService);
 
-  public initialFamilyData = input<FamilyInfo>({ maritalStatus: '', dependentPeople: 0 });
+  public initialFamilyData = input<FamilyInfo>({ martialStatus: '', dependentPeople: 0 });
 
   public readonly maritalStatusOptions = MARITAL_STATUS_OPTIONS;
   public readonly dependentsOptions = DEPENDENTS_OPTIONS;
@@ -66,7 +66,7 @@ export class Step1FamilyComponent {
     effect(() => {
       const familyData = this.initialFamilyData();
       this.form.patchValue({
-        [FAMILY_FORM_KEYS.MaritalStatus]: familyData.maritalStatus,
+        [FAMILY_FORM_KEYS.MaritalStatus]: familyData.martialStatus,
         [FAMILY_FORM_KEYS.Dependents]: familyData.dependentPeople,
       });
     });
@@ -85,7 +85,7 @@ export class Step1FamilyComponent {
     this.isSubmitting.set(true);
 
     const familyData: FamilyInfo = {
-      maritalStatus: this.form.value[FAMILY_FORM_KEYS.MaritalStatus]!,
+      martialStatus: this.form.value[FAMILY_FORM_KEYS.MaritalStatus]!,
       dependentPeople: this.form.value[FAMILY_FORM_KEYS.Dependents]!,
     };
 

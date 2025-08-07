@@ -1,0 +1,228 @@
+<div class="bg-gray-800 rounded-t-3xl -mx-5 -mb-9">
+  <!-- Custom Tab Navigation -->
+  <div class="p-4">
+    <div class="custom-tab-container">
+      <button
+        class="custom-tab-button"
+        [class.active]="activeTab() === 'ai-tips'"
+        (click)="onTabChange('ai-tips')">
+        Советы от AI
+      </button>
+      <button
+        class="custom-tab-button"
+        [class.active]="activeTab() === 'expense-analysis'"
+        (click)="onTabChange('expense-analysis')">
+        Анализ трат
+      </button>
+    </div>
+  </div>
+
+  <!-- Tab Content with Animation -->
+  <div class="tab-content-wrapper">
+    <div class="tab-content">
+      @if (activeTab() === 'ai-tips') {
+        <!-- AI Tips Content -->
+        <div class="space-y-6">
+          <!-- Money Options Section -->
+          <div>
+            <h2 class="text-white text-xl font-bold mb-4">Варианты получения денег</h2>
+            <p class="text-gray-300 text-sm mb-6">
+              AI рекомендует: Оптимально для вашей ситуации. Покроет нехватку до зарплаты.
+            </p>
+
+            <!-- Financial Products -->
+            <div class="space-y-8">
+              @if (data().recommendations && data().recommendations!.length > 0) {
+                @for (recommendation of data().recommendations!; track recommendation.product_type) {
+                  <div class="rounded-2xl p-4 text-white" [class]="getCategoryBackgroundClass(recommendation.category)">
+                    <div class="flex justify-between items-start">
+                      <div class="flex-1">
+                        <h3 class="text-lg font-semibold mb-2">{{ getProductDisplayName(recommendation.product_type) }}</h3>
+                        <p class="text-sm mb-1">{{ recommendation.reasoning }}</p>
+                        <div class="text-2xl font-bold mt-2">{{ formatCurrencySafely(recommendation.amount) }} сум</div>
+                        <p class="text-sm">Ожидаемый доход: {{ getExpectedReturnText(recommendation.expected_cost_or_return, recommendation.product_type) }}</p>
+                      </div>
+                      <div class="text-4xl">{{ getProductIcon(recommendation.product_type) }}</div>
+                    </div>
+                  </div>
+                }
+              } @else {
+                <!-- Fallback cards when no recommendations -->
+                <div class="bg-sky-500 rounded-2xl p-4 text-white">
+                  <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                      <h3 class="text-lg font-semibold mb-2">Микрозайм</h3>
+                      <p class="text-sm mb-1">3% в месяц</p>
+                      <p class="text-sm">На 12 дней - переплата 18 000 сум</p>
+                      <div class="text-2xl font-bold mt-2">1 500 000 сум</div>
+                    </div>
+                    <div class="text-4xl">🪙</div>
+                  </div>
+                </div>
+
+                <div class="bg-orange-500 rounded-2xl p-4 text-white">
+                  <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                      <h3 class="text-lg font-semibold mb-2">Овердрафт</h3>
+                      <p class="text-orange-100 text-sm mb-1">По зарплатной карте</p>
+                      <p class="text-orange-100 text-sm">2.5% в месяц</p>
+                      <div class="text-2xl font-bold mt-2">2 000 000 сум</div>
+                    </div>
+                    <div class="text-4xl">🌍</div>
+                  </div>
+                </div>
+
+                <div class="bg-green-600 rounded-2xl p-4 text-white">
+                  <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                      <h3 class="text-lg font-semibold mb-2">Кредитная карта</h3>
+                      <p class="text-green-100 text-sm">Скоринг одобрил 20 млн</p>
+                      <div class="text-2xl font-bold mt-2">20 000 000 сум</div>
+                    </div>
+                    <div class="text-4xl">🌱</div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      } @else if (activeTab() === 'expense-analysis') {
+        <!-- Expense Analysis Content -->
+        <div class="space-y-6">
+          <h2 class="text-white text-xl font-bold">Анализ доходов и трат</h2>
+
+          <!-- Income and Expenses List -->
+          <div class="space-y-4">
+            <!-- Salary Income -->
+            @if (data().salary) {
+              <div class="bg-gray-700 rounded-2xl p-4">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                      <span class="text-white text-sm">↓</span>
+                    </div>
+                    <div>
+                      <h3 class="text-white font-medium">Зарплата</h3>
+                      <p class="text-gray-400 text-sm">Основной доход</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-green-400 font-semibold">+ {{ formatCurrency(data().salary!) }} сум</div>
+                    <div class="text-gray-400 text-sm">Стабильно</div>
+                  </div>
+                </div>
+              </div>
+            }
+
+            <!-- Expenses from API -->
+            @if (data().expenses && data().expenses!.length > 0) {
+              @for (expense of data().expenses!; track expense.name) {
+                <div class="bg-gray-700 rounded-2xl p-4">
+                  <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm">↑</span>
+                      </div>
+                      <div>
+                        <h3 class="text-white font-medium">{{ expense.name }}</h3>
+                        <p class="text-gray-400 text-sm">{{ expense.percentage.toFixed(1) }}% от дохода</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-red-400 font-semibold">- {{ formatCurrency(expense.amount) }} сум</div>
+                      <div class="text-gray-400 text-sm">{{ expense.percentage.toFixed(1) }}% от дохода</div>
+                    </div>
+                  </div>
+                </div>
+              }
+            } @else {
+              <!-- Fallback expenses when no data -->
+              <div class="bg-gray-700 rounded-2xl p-4">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                      <span class="text-white text-sm">↑</span>
+                    </div>
+                    <div>
+                      <h3 class="text-white font-medium">Аренда</h3>
+                      <p class="text-gray-400 text-sm">Квартира в центре</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-red-400 font-semibold">- 2 000 000 сум</div>
+                    <div class="text-gray-400 text-sm">23% от дохода</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gray-700 rounded-2xl p-4">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                      <span class="text-white text-sm">↑</span>
+                    </div>
+                    <div>
+                      <h3 class="text-white font-medium">Развлечения</h3>
+                      <p class="text-gray-400 text-sm">Кино</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-red-400 font-semibold">- 1 500 000 сум</div>
+                    <div class="text-gray-400 text-sm">18% от дохода</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gray-700 rounded-2xl p-4">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                      <span class="text-white text-sm">↑</span>
+                    </div>
+                    <div>
+                      <h3 class="text-white font-medium">Авто и прочее</h3>
+                      <p class="text-gray-400 text-sm">Бензин</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-red-400 font-semibold">- 800 000 сум</div>
+                    <div class="text-gray-400 text-sm">9% от дохода</div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- AI Expense Analysis -->
+          <div class="bg-blue-600 rounded-2xl p-4 text-white">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-lg font-semibold">AI анализ трат</h3>
+              <div class="text-2xl">📊</div>
+            </div>
+            <ul class="space-y-2 text-sm">
+              <li>• {{ getExpenseAnalysisText() }}</li>
+              <li>• Траты составляют {{ getExpensePercentage() }}% от дохода</li>
+              <li>• Нет долгов и кредитов</li>
+              <li>• Стабильный рост накоплений</li>
+              <li>• Оптимальное соотношение доходы</li>
+            </ul>
+          </div>
+
+          <!-- Future Tips -->
+          <div class="bg-green-600 rounded-2xl p-4 text-white">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-lg font-semibold">Советы для будущего</h3>
+              <div class="text-2xl">💡</div>
+            </div>
+            <p class="text-green-100 text-sm mb-3">Планы на развитие</p>
+            <ul class="space-y-2 text-sm">
+              @for (tip of getFutureTips(); track tip) {
+                <li>{{ tip }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

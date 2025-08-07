@@ -1,5 +1,5 @@
 export interface FamilyInfo {
-  maritalStatus: string;
+  martialStatus: string;
   dependentPeople: number;
 }
 
